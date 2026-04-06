@@ -30,7 +30,8 @@ public class BulletPattern : MonoBehaviour
 
     private void Start()
     {
-        // TODO
+        angleSpacing = 360f / bulletCount;
+        nextFireTime = Time.time + fireInterval;
     }
 
     private void Update()
@@ -50,7 +51,20 @@ public class BulletPattern : MonoBehaviour
     {
         for (int i = 0; i < bulletCount; i++)
         {
-            // TODO
+            float angleDegrees = (i * angleSpacing + currentRotationOffset) % 360;
+            float angleRadians = angleDegrees * Mathf.Deg2Rad;
+
+            Vector3 direction = new Vector3(
+                Mathf.Cos(angleRadians),
+                0f,
+                Mathf.Sin(angleRadians)
+            ).normalized;
+
+            GameObject bullet = Instantiate(bulletPrefab, transform.position, Quaternion.identity);
+            Rigidbody rb = bullet.GetComponent<Rigidbody>();
+            rb.linearVelocity = direction * bulletSpeed;
+
+            Destroy(bullet, bulletLifetime);
         }
     }
 

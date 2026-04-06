@@ -58,8 +58,25 @@ public class CrossProductDemo : MonoBehaviour
 
     private string CheckLeftOrRight(Transform targetTransform)
     {
-        // TODO
-        return "";
+        Vector3 toTarget = targetTransform.position - transform.position;
+        toTarget.y = 0f; // 수평면에서만 판단하기 위해 Y값 제거
+
+        crossProduct = Vector3.Cross(transform.forward, toTarget.normalized);
+        crossY = crossProduct.y;
+
+        float threshold = 0.1f;
+
+        if (crossY > threshold)
+        {
+            return "오른쪽";
+
+        }
+        else if (crossY < -threshold)
+        {
+            return "왼쪽";
+
+        }
+        return "정면"; // 정면 후면의 구분은 내적에서 하는 거임
     }
 
     private void OnDrawGizmos()

@@ -41,7 +41,12 @@ public class UnitCircleDemo : MonoBehaviour
             currentAngleDegrees = Mathf.Clamp(manualAngleDegrees, 0f, 360f);
         }
 
-        // TODO
+        currentAngleRadians = currentAngleDegrees * Mathf.Deg2Rad;
+
+        cosValue = Mathf.Cos(currentAngleRadians);
+        sinValue = Mathf.Sin(currentAngleRadians);
+
+        pointPosition = new Vector3(cosValue * radius, 0f, sinValue * radius);
 
         UpdateUI();
     }

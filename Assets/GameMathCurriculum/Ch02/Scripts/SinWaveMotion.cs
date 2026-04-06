@@ -36,7 +36,26 @@ public class SinWaveMotion : MonoBehaviour
 
     private void Update()
     {
-        // TODO
+        float phaseRadians = phase * Mathf.Deg2Rad; // 위상
+        float timeInCycle = Time.time * frequency; // 시간에 따른 주기 계산 
+        currentOffset = amplitude * Mathf.Sin(2f * Mathf.PI * timeInCycle + phaseRadians); // 진동 공식 적용
+
+        Vector3 newPosition = startPosition;
+        switch (motionAxis)
+        {
+            case MotionAxis.X:
+                newPosition.x += currentOffset;
+                break;
+            case MotionAxis.Y:
+                newPosition.y += currentOffset;
+                break;
+            case MotionAxis.Z:
+                newPosition.z += currentOffset;
+                break;
+        }
+
+
+        transform.localPosition = newPosition;
 
         UpdateUI();
     }

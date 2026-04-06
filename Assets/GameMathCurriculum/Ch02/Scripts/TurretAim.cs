@@ -36,7 +36,20 @@ public class TurretAim : MonoBehaviour
             return;
         }
 
-        // TODO
+        directionToTarget = target.position - transform.position;
+        distanceToTarget = directionToTarget.magnitude;
+        targetInRange = distanceToTarget <= detectionRange;
+
+        if (!targetInRange)
+        {
+            UpdateUI();
+            return;
+        }
+
+        directionToTarget.Normalize();
+
+        targetAngleRadians = Mathf.Atan2(directionToTarget.z, directionToTarget.x);
+        targetAngleDegrees = targetAngleRadians * Mathf.Rad2Deg;
 
         RotateTowardTarget();
         UpdateUI();
@@ -44,7 +57,13 @@ public class TurretAim : MonoBehaviour
 
     private void RotateTowardTarget()
     {
-        // TODO
+        Quaternion targetQuaternion = Quaternion.Euler(0f, 90f - targetAngleDegrees, 0f);
+
+        transform.rotation = Quaternion.RotateTowards(
+            transform.rotation, // 현재 회전
+            targetQuaternion, // 목표 회전
+            rotationSpeed * Time.deltaTime // 회전 속도에 따른 회전량 (한 번에 회전할 수 있는 최대량 제약)
+        );
     }
 
     private void UpdateUI()

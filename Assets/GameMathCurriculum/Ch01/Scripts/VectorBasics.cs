@@ -51,9 +51,9 @@ public class VectorBasics : MonoBehaviour
     private void PrintVectorOperations()
     {
         // TODO
-        sum = Vector3.zero;
-        diff = Vector3.zero;
-        scaled = Vector3.zero;
+        sum = vectorA + vectorB;
+        diff = vectorA - vectorB;
+        scaled = scalar * vectorA;
 
         Debug.Log($"[VectorBasics] A = {vectorA}, B = {vectorB}");
         Debug.Log($"  덧셈  A + B = {sum}  (크기: {sum.magnitude:F2})");

@@ -34,6 +34,7 @@ public class Assignment_EnemyDetector : MonoBehaviour
 
     private void Start()
     {
+
         allEnemies = GameObject.FindGameObjectsWithTag("Enemy");
         Debug.Log($"[EnemyDetector] 씬에서 {allEnemies.Length}개의 적을 발견했습니다.");
     }
@@ -66,8 +67,14 @@ public class Assignment_EnemyDetector : MonoBehaviour
 
     private bool IsDetected(Transform enemy)
     {
-        // TODO
-        return false;
+        Vector3 toEnemy = enemy.position - transform.position;
+        if (toEnemy.magnitude > detectionRange) return false;
+
+        Vector3 toEnemyNormalized = toEnemy.normalized;
+        float dot = Vector3.Dot(transform.forward, toEnemyNormalized);
+        float halfFovCos = Mathf.Cos(detectionFOV * 0.5f * Mathf.Deg2Rad);
+
+        return dot > halfFovCos;
     }
 
     private void OnDrawGizmos()

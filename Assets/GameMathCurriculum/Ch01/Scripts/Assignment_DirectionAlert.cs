@@ -75,8 +75,22 @@ public class Assignment_DirectionAlert : MonoBehaviour
 
     private Direction GetDirection(Transform enemy)
     {
-        // TODO
-        return Direction.None;
+        Vector3 toEnemy = enemy.position - transform.position;
+        toEnemy.y = 0f;
+        toEnemy = toEnemy.normalized;
+
+        float dot = Vector3.Dot(transform.forward, toEnemy);
+
+        float crossY = Vector3.Cross(transform.forward, toEnemy).y;
+
+        if (Mathf.Abs(dot) >= Mathf.Abs(crossY))
+        {
+            return dot >= 0f ? Direction.Front : Direction.Back;
+        }
+        else
+        {
+            return crossY > 0f ? Direction.Right : Direction.Left;
+        }
     }
 
     private void OnDrawGizmos()
